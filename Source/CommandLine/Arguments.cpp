@@ -157,18 +157,6 @@ namespace N503::CommandLine
             }
         });
 
-#ifdef _DEBUG
-        visitor.On(NodeType::Root, [](Node* node, Arguments& context)
-        {
-            std::cout << "Entering Root Node..." << std::endl;
-        });
-
-        visitor.On(NodeType::PositionalGroup, [](Node* node, Arguments& context)
-        {
-            std::cout << "Entering PositionalGroup Node..." << static_cast<int>(node->GetType()) << std::endl;
-        });
-#endif
-
         // 解析結果を元にメンバ変数にコマンド引数を構築
         visitor.Visit(root, *this);
     }
