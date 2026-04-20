@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #include <N503/CommandLine/Arguments.hpp>
 #include <N503/Memory/Storage/Arena.hpp>

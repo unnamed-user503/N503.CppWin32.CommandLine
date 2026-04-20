@@ -1,4 +1,4 @@
-﻿#include "Pch.hpp"
+#include "Pch.hpp"
 #include "Arguments_Entity.hpp"
 #include <N503/CommandLine/Arguments.hpp>
 
@@ -26,7 +26,6 @@
 #include <N503/Syntax/Token.hpp>
 #include <N503/Syntax/TokenType.hpp>
 #include <Windows.h>
-#include <iostream>
 #include <map>
 #include <memory>
 #include <string_view>
@@ -110,16 +109,15 @@ namespace N503::CommandLine
         // コマンド解析結果の成果を得る
         Syntax::NodeVisitor<Arguments> visitor;
 
-        // --- 各ノードに対する処理を登録 ---
-
+        // 各ノードに対する処理を登録
         // LongOption: [--][key][=][value] の構造を想定
         visitor.On(NodeType::LongOption, [](Node* node, Arguments& context)
         {
             auto children = node->GetChildren();
             if (children.size() >= 4)
             {
-                auto key = children[1]->GetToken().Lexeme;   // "filename1"
-                auto value = children[3]->GetToken().Lexeme; // "abc.txt"
+                auto key = children[1]->GetToken().Lexeme;
+                auto value = children[3]->GetToken().Lexeme;
                 context.m_Entity->Options[key] = value;
             }
         });
@@ -130,7 +128,7 @@ namespace N503::CommandLine
             auto children = node->GetChildren();
             if (children.size() >= 2)
             {
-                context.m_Entity->ShortOptions.push_back(children[1]->GetToken().Lexeme); // "a", "b", "c"
+                context.m_Entity->ShortOptions.push_back(children[1]->GetToken().Lexeme);
             }
         });
 
@@ -153,7 +151,7 @@ namespace N503::CommandLine
             // 親が PositionalGroup の場合のみ、位置引数として扱う
             if (node->GetParent() && node->GetParent()->GetType() == NodeType::PositionalGroup)
             {
-                context.m_Entity->Arguments.push_back(node->GetToken().Lexeme); // "foo", "bar"
+                context.m_Entity->Arguments.push_back(node->GetToken().Lexeme);
             }
         });
 

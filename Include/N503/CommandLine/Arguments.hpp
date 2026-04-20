@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 // External Project
 #include <N503/Abi/Api.hpp>
