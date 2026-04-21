@@ -29,49 +29,49 @@ namespace N503::CommandLine
 
         /// @brief
         /// @param
-        Arguments(const Arguments&) = delete;
+        Arguments(const Arguments &) = delete;
 
         /// @brief
         /// @param
         /// @return
-        auto operator=(const Arguments&) -> Arguments& = delete;
+        auto operator=(const Arguments &) -> Arguments & = delete;
 
         /// @brief
         /// @param
-        Arguments(Arguments&&);
+        Arguments(Arguments &&);
 
         /// @brief
         /// @param
         /// @return
-        auto operator=(Arguments&&) -> Arguments&;
+        auto operator=(Arguments &&) -> Arguments &;
 
     public:
-        /// @brief 
-        /// @param index 
-        /// @return 
+        /// @brief
+        /// @param index
+        /// @return
         auto GetShortOption(std::size_t index) const -> std::string_view;
 
-        /// @brief 
-        /// @return 
+        /// @brief
+        /// @return
         auto GetShortOptionCount() const -> std::size_t;
 
-        /// @brief 
-        /// @param name 
-        /// @return 
+        /// @brief
+        /// @param name
+        /// @return
         auto GetOption(std::string_view name) const -> std::string_view;
 
-        /// @brief 
-        /// @param name 
-        /// @return 
+        /// @brief
+        /// @param name
+        /// @return
         auto GetProperty(std::string_view name) const -> std::string_view;
 
-        /// @brief 
-        /// @param index 
-        /// @return 
+        /// @brief
+        /// @param index
+        /// @return
         auto GetArgument(std::size_t index) const -> std::string_view;
 
-        /// @brief 
-        /// @return 
+        /// @brief
+        /// @return
         auto GetArgumentCount() const -> std::size_t;
 
     public:
@@ -83,7 +83,7 @@ namespace N503::CommandLine
         /// @note このメソッドはライブラリ内部（DLL境界の内側）でのみ使用されます。
         /// @return Entity を管理する unique_ptr への参照。
         [[nodiscard]]
-        auto GetEntity() -> std::unique_ptr<Entity>&
+        auto GetEntity() -> std::unique_ptr<Entity> &
         {
             return m_Entity;
         }
