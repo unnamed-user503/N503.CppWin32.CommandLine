@@ -11,7 +11,7 @@ namespace N503::CommandLine
 
     struct Arguments::Entity
     {
-        N503::Memory::Storage::Arena Arena{256};
+        N503::Memory::Storage::Arena Arena{ 256 };
 
         std::map<std::string_view, std::string_view> Options{};
 

@@ -29,21 +29,21 @@ namespace N503::CommandLine
 
         /// @brief
         /// @param
-        Arguments(const Arguments &) = delete;
+        Arguments(const Arguments&) = delete;
 
         /// @brief
         /// @param
         /// @return
-        auto operator=(const Arguments &) -> Arguments & = delete;
+        auto operator=(const Arguments&) -> Arguments& = delete;
 
         /// @brief
         /// @param
-        Arguments(Arguments &&);
+        Arguments(Arguments&&);
 
         /// @brief
         /// @param
         /// @return
-        auto operator=(Arguments &&) -> Arguments &;
+        auto operator=(Arguments&&) -> Arguments&;
 
     public:
         /// @brief
@@ -83,7 +83,7 @@ namespace N503::CommandLine
         /// @note このメソッドはライブラリ内部（DLL境界の内側）でのみ使用されます。
         /// @return Entity を管理する unique_ptr への参照。
         [[nodiscard]]
-        auto GetEntity() -> std::unique_ptr<Entity> &
+        auto GetEntity() -> std::unique_ptr<Entity>&
         {
             return m_Entity;
         }

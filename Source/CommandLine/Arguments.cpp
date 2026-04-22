@@ -49,11 +49,7 @@ namespace N503::CommandLine
         using namespace Details;
 
         // パーサー標準装備のScanning::Operatorは1文字ずつ抽出するので、連続した記号を受け取れるスキャナを自前で用意する
-        using Operator = DefaultScanner<
-            TokenType::Operator,
-            OperatorCondition,
-            OperatorCondition,
-            Lexing::Not<OperatorCondition>>;
+        using Operator = DefaultScanner<TokenType::Operator, OperatorCondition, OperatorCondition, Lexing::Not<OperatorCondition>>;
     } // namespace Scanners
 
     namespace Grammar
@@ -68,8 +64,7 @@ namespace N503::CommandLine
         inline constexpr auto AtomicValue = (String | BaseValue | Number | Identifier);
 
         // オプション形式の定義 (AtomicValue を使用)
-        inline constexpr auto LongOption = (Lexeme<"--"> + Identifier + Lexeme<"="> + AtomicValue)
-                                               .As<NodeType::LongOption>();
+        inline constexpr auto LongOption = (Lexeme<"--"> + Identifier + Lexeme<"="> + AtomicValue).As<NodeType::LongOption>();
         inline constexpr auto ShortOption = (Lexeme<"-"> + Identifier).As<NodeType::ShortOption>();
 
         // 代入形式と位置引数の定義
@@ -84,7 +79,7 @@ namespace N503::CommandLine
         inline constexpr auto Root = (*(LongOption | ShortOption | Property | PositionalGroup)).As<NodeType::Root>();
     } // namespace Grammar
 
-    Arguments::Arguments() : m_Entity{std::make_unique<Arguments::Entity>()}
+    Arguments::Arguments() : m_Entity{ std::make_unique<Arguments::Entity>() }
     {
         using namespace N503::Syntax;
 
@@ -110,7 +105,7 @@ namespace N503::CommandLine
         N503::Diagnostics::Sink sink;
 
         auto tokens = lexer.Tokenize(source, sink);
-        Node *root = parser.Parse(tokens, m_Entity->Arena, sink);
+        Node* root = parser.Parse(tokens, m_Entity->Arena, sink);
 
         // コマンド解析結果の成果を得る
         Syntax::NodeVisitor<Arguments> visitor;
@@ -119,7 +114,7 @@ namespace N503::CommandLine
         // LongOption: [--][key][=][value] の構造を想定
         visitor
             .On(NodeType::LongOption,
-                [](Node *node, Arguments &context)
+                [](Node* node, Arguments& context)
                 {
                     auto children = node->GetChildren();
                     if (children.size() >= 4)
@@ -133,7 +128,7 @@ namespace N503::CommandLine
         // ShortOption: [-][f] の構造を想定
         visitor
             .On(NodeType::ShortOption,
-                [](Node *node, Arguments &context)
+                [](Node* node, Arguments& context)
                 {
                     auto children = node->GetChildren();
                     if (children.size() >= 2)
@@ -145,7 +140,7 @@ namespace N503::CommandLine
         // Property: [key][=][value] の構造
         visitor
             .On(NodeType::Property,
-                [](Node *node, Arguments &context)
+                [](Node* node, Arguments& context)
                 {
                     auto children = node->GetChildren();
                     if (children.size() >= 3)
@@ -160,7 +155,7 @@ namespace N503::CommandLine
         // ※ Visitor が再帰的に Visit するため、NodeType::Terminal でも判定可能
         visitor
             .On(NodeType::Terminal,
-                [](Node *node, Arguments &context)
+                [](Node* node, Arguments& context)
                 {
                     // 親が PositionalGroup の場合のみ、位置引数として扱う
                     if (node->GetParent() && node->GetParent()->GetType() == NodeType::PositionalGroup)
@@ -228,8 +223,8 @@ namespace N503::CommandLine
 
     Arguments::~Arguments() = default;
 
-    Arguments::Arguments(Arguments &&) = default;
+    Arguments::Arguments(Arguments&&) = default;
 
-    auto Arguments::operator=(Arguments &&) -> Arguments & = default;
+    auto Arguments::operator=(Arguments&&) -> Arguments& = default;
 
 } // namespace N503::CommandLine
