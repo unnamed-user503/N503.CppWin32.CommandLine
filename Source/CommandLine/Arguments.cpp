@@ -64,15 +64,15 @@ namespace N503::CommandLine
         inline constexpr auto AtomicValue = (String | BaseValue | Number | Identifier);
 
         // オプション形式の定義 (AtomicValue を使用)
-        inline constexpr auto LongOption = (Lexeme<"--"> + Identifier + Lexeme<"="> + AtomicValue).As<NodeType::LongOption>();
+        inline constexpr auto LongOption  = (Lexeme<"--"> + Identifier + Lexeme<"="> + AtomicValue).As<NodeType::LongOption>();
         inline constexpr auto ShortOption = (Lexeme<"-"> + Identifier).As<NodeType::ShortOption>();
 
         // 代入形式と位置引数の定義
-        inline constexpr auto Property = (Identifier + Lexeme<"="> + AtomicValue).As<NodeType::Property>();
+        inline constexpr auto Property       = (Identifier + Lexeme<"="> + AtomicValue).As<NodeType::Property>();
         inline constexpr auto PositionalItem = (Property | AtomicValue);
 
         // グループ化とルート定義
-        inline constexpr auto Options = *(LongOption | ShortOption);
+        inline constexpr auto Options         = *(LongOption | ShortOption);
         inline constexpr auto PositionalGroup = (*PositionalItem).As<NodeType::PositionalGroup>();
 
         // 最終的な Root (Options と PositionalGroup を連結)
@@ -105,7 +105,7 @@ namespace N503::CommandLine
         N503::Diagnostics::Sink sink;
 
         auto tokens = lexer.Tokenize(source, sink);
-        Node* root = parser.Parse(tokens, m_Entity->Arena, sink);
+        Node* root  = parser.Parse(tokens, m_Entity->Arena, sink);
 
         // コマンド解析結果の成果を得る
         Syntax::NodeVisitor<Arguments> visitor;
@@ -119,8 +119,8 @@ namespace N503::CommandLine
                     auto children = node->GetChildren();
                     if (children.size() >= 4)
                     {
-                        auto key = children[1]->GetToken().Lexeme;
-                        auto value = children[3]->GetToken().Lexeme;
+                        auto key                       = children[1]->GetToken().Lexeme;
+                        auto value                     = children[3]->GetToken().Lexeme;
                         context.m_Entity->Options[key] = value;
                     }
                 });
@@ -145,8 +145,8 @@ namespace N503::CommandLine
                     auto children = node->GetChildren();
                     if (children.size() >= 3)
                     {
-                        auto key = children[0]->GetToken().Lexeme;   // "root"
-                        auto value = children[2]->GetToken().Lexeme; // "\"abc\""
+                        auto key                          = children[0]->GetToken().Lexeme; // "root"
+                        auto value                        = children[2]->GetToken().Lexeme; // "\"abc\""
                         context.m_Entity->Properties[key] = value;
                     }
                 });
