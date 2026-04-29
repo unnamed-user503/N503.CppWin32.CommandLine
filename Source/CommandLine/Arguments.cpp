@@ -102,7 +102,7 @@ namespace N503::CommandLine
         // 解析実行
         std::string_view source = GetCommandLineA(); // R"("App.exe" -abc -a -b -c --file="Test.dat" root=name foo bar
                                                      // hoge)";
-        N503::Diagnostics::Sink sink;
+        N503::Diagnostics::ConsoleSink sink;
 
         auto tokens = lexer.Tokenize(source, sink);
         Node* root  = parser.Parse(tokens, m_Entity->Arena, sink);
